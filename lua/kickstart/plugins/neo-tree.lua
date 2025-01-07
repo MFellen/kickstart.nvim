@@ -22,4 +22,15 @@ return {
       },
     },
   },
+  init = function()
+    -- Automatically open NeoTree when starting in a directory
+    vim.api.nvim_create_autocmd('VimEnter', {
+      callback = function()
+        local is_directory = vim.fn.isdirectory(vim.fn.expand '%:p')
+        if is_directory == 1 then
+          require('neo-tree.command').execute { toggle = true, dir = vim.fn.getcwd() }
+        end
+      end,
+    })
+  end,
 }
